@@ -20,9 +20,9 @@ const Orders = () => {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>STATUS</th>
-                            <th>DATE</th>
-                            <th>TOTAL</th>
+                            <th>TÌNH TRẠNG</th>
+                            <th>THỜI GIAN</th>
+                            <th>TỔNG TIỀN</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,9 +32,9 @@ const Orders = () => {
                                     1
                                 </a>
                             </td>
-                            <td>Paid</td>
-                            <td>Dec 12 2021</td>
-                            <td>$234</td>
+                            <td>Đã thanh toán</td>
+                            <td>27-10-2023</td>
+                            <td>1.035.000đ</td>
                         </tr>
                         {/* Cancelled */}
                         <tr className={"alert-danger"}>
@@ -43,9 +43,9 @@ const Orders = () => {
                                     2
                                 </a>
                             </td>
-                            <td>Not Paid</td>
-                            <td>Dec 12 2021</td>
-                            <td>$34</td>
+                            <td>Chưa thanh toán</td>
+                            <td>27-10-2023</td>
+                            <td>500.000đ</td>
                         </tr>
                     </tbody>
                 </table>

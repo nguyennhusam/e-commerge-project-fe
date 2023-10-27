@@ -19,10 +19,10 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="author-card-details col-md-7">
                                     <h5 className="author-card-name mb-2">
-                                        <strong>Admin Doe</strong>
+                                        <strong>Sam</strong>
                                     </h5>
                                     <span className="author-card-position">
-                                        <>Joined Dec 12 2021</>
+                                        <>Tham gia vào 27-10-2023</>
                                     </span>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@ const ProfilePage = () => {
                                         aria-controls="v-pills-home"
                                         aria-selected="true"
                                     >
-                                        Profile Settings
+                                        THÔNG TIN CÁ NHÂN
                                     </button>
                                     <button
                                         class="nav-link d-flex justify-content-between"
@@ -57,8 +57,8 @@ const ProfilePage = () => {
                                         aria-controls="v-pills-profile"
                                         aria-selected="false"
                                     >
-                                        Orders List
-                                        <span className="badge2">3</span>
+                                        DANH SÁCH ĐƠN HÀNG
+                                        <span className="badge2">2</span>
                                     </button>
                                 </div>
                             </div>
