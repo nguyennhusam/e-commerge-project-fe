@@ -154,9 +154,8 @@ textarea:focus {
 }
 .shop {
   margin-bottom: 50px;
-
   position: relative;
-  transition: transform 0.3s;
+  transition: transform 0.5s;
 }
 .shop:hover {
   transform: scale(1);
@@ -184,8 +183,10 @@ textarea:focus {
   bottom: -50px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #0d2136;
-  color: #fff;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: #ADB1BA;
+  color: #000000;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
@@ -196,7 +197,9 @@ textarea:focus {
 }
 .add-to-cart-button:hover {
   background-color: #1cb803;
+  color: #ffffff;
   transition: all 0.5s ease-in-out 0s;
+  opacity: 1;
 }
 
 .shop:hover .add-to-cart-button {
