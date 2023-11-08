@@ -47,14 +47,13 @@ const ShopSection = () => {
                             src={product.image[imageStates[index]]}
                             alt={product.name}
                           />
-                          {imageStates[index] === 1 && (
-                            <button
+                          <button
                               className="add-to-cart-button"
                               onClick={handleAddToCart}
                             >
                               Thêm vào giỏ hàng
                             </button>
-                          )}
+                        
                         </div>
                       </Link>
 
