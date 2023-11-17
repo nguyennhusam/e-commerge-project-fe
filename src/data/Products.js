@@ -2,7 +2,7 @@ const products = [
   {
     _id: "1",
     name: "Áo polo man tay lửng  (Vằn)",
-    image: ["/images/6.png", "/images/6-2.png"],
+    images: ["/images/6.png", "/images/6-2.png"],
     description:
       "Áo thun cổ tròn, tay ngắn. Có miếng đệm hạ cánh và các bản in màu khác nhau ở mặt trước và mặt sau.",
     price: 289.999,
@@ -13,7 +13,7 @@ const products = [
   {
     _id: "2",
     name: "Áo sơ mi sọc  (Vàng nhạt)",
-    image: ["/images/5.png", "/images/5-2.png"],
+    images: ["/images/5.png", "/images/5-2.png"],
     description:
       "Áo thun cổ tròn, tay ngắn. Có miếng đệm hạ cánh và các bản in màu khác nhau ở mặt trước và mặt sau.",
     price: 259.999,
@@ -24,7 +24,7 @@ const products = [
   {
     _id: "3",
     name: "Áo thun họa tiết chấm đen",
-    image: ["/images/4.png", "/images/4-2.png"],
+    images: ["/images/4.png", "/images/4-2.png"],
     description:
       "Áo thun cổ tròn, tay ngắn. Có miếng đệm hạ cánh và các bản in màu khác nhau ở mặt trước và mặt sau.",
     price: 299.999,
@@ -35,7 +35,7 @@ const products = [
   {
     _id: "4",
     name: "Áo Denim kiểu dáng tay lửng  (Croptop)",
-    image: ["/images/3.png", "/images/3-2.png"],
+    images: ["/images/3.png", "/images/3-2.png"],
     description:
       "Áo thun cổ tròn, tay ngắn. Có miếng đệm hạ cánh và các bản in màu khác nhau ở mặt trước và mặt sau.",
     price: 399.999,
@@ -46,7 +46,7 @@ const products = [
   {
     _id: "5",
     name: "Áo thun đen in họa tiết chữ",
-    image: ["/images/2.png", "/images/2-2.png"],
+    images: ["/images/2.png", "/images/2-2.png"],
     description:
       "Áo thun cổ tròn, tay ngắn. Có miếng đệm hạ cánh và các bản in màu khác nhau ở mặt trước và mặt sau.",
     price: 499.999,
@@ -57,7 +57,7 @@ const products = [
   {
     _id: "6",
     name: "Áo thun trắng in hoa tiết chữ đặc biệt",
-    image: ["/images/1.png", "/images/1-2.png"],
+    images: ["/images/1.png", "/images/1-2.png"],
     description:
       "Áo thun cổ tròn, tay ngắn. Có miếng đệm hạ cánh và các bản in màu khác nhau ở mặt trước và mặt sau.",
     price: 299.999,

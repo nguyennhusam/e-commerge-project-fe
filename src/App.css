@@ -157,9 +157,9 @@ textarea:focus {
   position: relative;
   transition: transform 0.5s;
 }
-.shop:hover {
+/* .shop:hover {
   transform: scale(1);
-}
+} */
 .border-product {
   padding: 15px;
   border: 1px solid #f3f3f3;
@@ -171,7 +171,6 @@ textarea:focus {
   overflow: hidden;
   width: 100%;
   transition: opacity 0.5s ease, bottom 0.5s ease;
-
   background-color: #f3fbf7;
 }
 .shopBack img {
@@ -179,6 +178,9 @@ textarea:focus {
   height: 300px;
   transition: bottom 0.5s ease;
   object-fit: cover;
+}
+.shopBack:hover img{
+  transform: scale(1.1);
 }
 
 .add-to-cart-button {

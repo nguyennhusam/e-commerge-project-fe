@@ -1,24 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
-import products from "../../data/Products";
+// import products from "../../data/Products";
+import axios from "axios";
 
 const ShopSection = () => {
-  const initialImageStates = products.map(() => 0);
-  const [imageStates, setImageStates] = useState(initialImageStates);
+  const [products, setProducts] = useState([]);
 
-  const handleMouseEnter = (index) => {
-    const updatedStates = [...imageStates];
-    updatedStates[index] = 1;
-    setImageStates(updatedStates);
-  };
-
-  const handleMouseLeave = (index) => {
-    const updatedStates = [...imageStates];
-    updatedStates[index] = 0;
-    setImageStates(updatedStates);
-  };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get(
+        "http://localhost:4000/products/getallproduct"
+      );
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -26,60 +24,54 @@ const ShopSection = () => {
 
   return (
     <>
-      <div className="container">
-        <div className="section">
-          <div className="row">
-            <div className="col-lg-12 col-md-12 article">
-              <div className="shopcontainer row">
-                {products.map((product, index) => (
-                  <div
-                    className="shop col-lg-4 col-md-6 col-sm-6"
-                    key={product._id}
-                  >
-                    <div className="border-product">
-                      <Link to={`/products/${product._id}`}>
-                        <div
-                          className="shopBack"
-                          onMouseEnter={() => handleMouseEnter(index)}
-                          onMouseLeave={() => handleMouseLeave(index)}
-                        >
-                          <img
-                            src={product.image[imageStates[index]]}
-                            alt={product.name}
-                          />
-                          <button
+      {products.data && (
+        <div className="container">
+          <div className="section">
+            <div className="row">
+              <div className="col-lg-12 col-md-12 article">
+                <div className="shopcontainer row">
+                  {products.data.map((product, index) => (
+                    <div
+                      className="shop col-lg-4 col-md-6 col-sm-6"
+                      key={product._id}
+                    >
+                      <div className="border-product">
+                        <Link to={`/products/${product._id}`}>
+                          <div className="shopBack">
+                            <img src={product.images[0]} alt={product.name} />
+                            <button
                               className="add-to-cart-button"
                               onClick={handleAddToCart}
                             >
                               Thêm vào giỏ hàng
                             </button>
-                        
+                          </div>
+                        </Link>
+
+                        <div className="shoptext">
+                          <p>
+                            <Link to={`/products/${product._id}`}>
+                              {product.name}
+                            </Link>
+                          </p>
+
+                          <Rating
+                            value={product.rating}
+                            text={`${product.numReviews} đánh giá`}
+                          />
+                          <h3>{product.price}đ</h3>
                         </div>
-                      </Link>
-
-                      <div className="shoptext">
-                        <p>
-                          <Link to={`/products/${product._id}`}>
-                            {product.name}
-                          </Link>
-                        </p>
-
-                        <Rating
-                          value={product.rating}
-                          text={`${product.numReviews} đánh giá`}
-                        />
-                        <h3>{product.price}đ</h3>
                       </div>
                     </div>
-                  </div>
-                ))}
-                {/* Pagination */}
-                <Pagination />
+                  ))}
+                  {/* Pagination */}
+                  <Pagination />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
