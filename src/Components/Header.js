@@ -1,7 +1,20 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../Redux/Actions/UserAction";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const cartList = useSelector((state) => state.cartList);
+  const { cartItem } = cartList;
+
+  const LogoutHandler = () => {
+    dispatch(logout());
+    // console.log("Logout")
+  };
   return (
     <div>
       {/* Top Header */}
@@ -45,29 +58,57 @@ const Header = () => {
                   </Link>
                 </div>
                 <div className="col-6 d-flex align-items-center justify-content-end Login-Register">
-                  <div className="btn-group">
-                    <button
-                      type="button"
-                      className="name-button dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="fas fa-user"></i>
-                    </button>
-                    <div className="dropdown-menu">
-                      <Link className="dropdown-item" to="/profile">
-                        Thôn Tin Cá nhân
-                      </Link>
+                  {userInfo ? (
+                    <div className="btn-group">
+                      <button
+                        type="button"
+                        className="name-button dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="fas fa-user"></i>
+                      </button>
+                      <div className="dropdown-menu">
+                        <Link className="dropdown-item" to="/profile">
+                          Thôn Tin Cá nhân
+                        </Link>
 
-                      <Link className="dropdown-item" to="#">
-                        Thoát
-                      </Link>
+                        <Link
+                          className="dropdown-item"
+                          to="#"
+                          onClick={LogoutHandler}
+                        >
+                          Thoát
+                        </Link>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="btn-group">
+                      <button
+                        type="button"
+                        className="name-button dropdown-toggle"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <i class="fas fa-user"></i>
+                      </button>
+                      <div className="dropdown-menu">
+                        <Link className="dropdown-item" to="/login">
+                          Đăng nhập
+                        </Link>
+
+                        <Link className="dropdown-item" to="/register">
+                          Đăng ký
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+
                   <Link to="/cart" className="cart-mobile-icon">
                     <i className="fas fa-shopping-bag"></i>
-                    <span className="badge">1</span>
+                    {/* <span className="badge">1</span> */}
                   </Link>
                 </div>
                 <div className="col-12 d-flex align-items-center">
@@ -107,31 +148,66 @@ const Header = () => {
                 </form>
               </div>
               <div className="col-md-3 d-flex align-items-center justify-content-end Login-Register">
-                <div className="btn-group">
-                  <button
-                    type="button"
-                    className="name-button dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Hi, Sam
-                  </button>
-                  <div className="dropdown-menu">
-                    <Link className="dropdown-item" to="/profile">
-                      Thông Tin Cá nhân
-                    </Link>
+                {userInfo ? (
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="name-button dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Hi, {userInfo.username}
+                    </button>
+                    <div className="dropdown-menu">
+                      <Link className="dropdown-item" to="/profile">
+                        Thông Tin Cá nhân
+                      </Link>
 
-                    <Link className="dropdown-item" to="#">
-                      Thoát
-                    </Link>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        onClick={LogoutHandler}
+                      >
+                        Thoát
+                      </Link>
+                    </div>
                   </div>
-                </div>
-
+                ) : (
+                  <>
+                    <Link to="/register">Đăng ký</Link>
+                    <Link to="/login">Đăng nhập</Link>
+                  </>
+                )}
                 <Link to="/cart">
                   <i className="fas fa-shopping-bag"></i>
-                  <span className="badge">1</span>
+                  {cartList.error ? (
+                    <span className="badge"></span>
+                  ) : (
+                    <>
+                      {cartItem.productItem && (
+                        <span className="badge">
+                          {cartItem.productItem.length}
+                        </span>
+                      )}
+                    </>
+                  )}
                 </Link>
+                {/* {!cartList.error ? (
+                  <>
+                    {cartItem.productItem && (
+                      <Link to="/cart">
+                        <i className="fas fa-shopping-bag"></i>
+                        <span className="badge">{cartItem.productItem.length}</span>
+                      </Link>
+                    )}
+                  </>
+                ) : (
+                  <Link to="/cart">
+                    <i className="fas fa-shopping-bag"></i>
+                    <span className="badge">0</span>
+                  </Link>
+                )} */}
               </div>
             </div>
           </div>

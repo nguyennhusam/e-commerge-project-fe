@@ -2,9 +2,12 @@ import React from "react";
 import ProfileTabs from "../Components/profileComponents/ProfileTabs";
 import Orders from "../Components/profileComponents/Orders";
 import Header from "../Components/Header";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
   window.scrollTo(0, 0);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   return (
     <>
       <Header />
@@ -19,10 +22,10 @@ const ProfilePage = () => {
                 </div>
                 <div className="author-card-details col-md-7">
                   <h5 className="author-card-name mb-2">
-                    <strong>Sam</strong>
+                    <strong>{userInfo.username}</strong>
                   </h5>
                   <span className="author-card-position">
-                    <>Tham gia vào 27-10-2023</>
+                    <>{userInfo.email}</>
                   </span>
                 </div>
               </div>

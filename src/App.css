@@ -720,4 +720,31 @@ textarea:focus {
   background-color: #000;
   color: #fff;
 }
-
+.shop-cart-title {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+.login-to-cart {
+  display: flex;
+  justify-content: center;
+}
+.continue-shopping {
+  width: 400px;
+  border-radius: 10px;
+}
+.grid-toggle-button {
+  display: grid;
+  width: 140px;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+}
+.amount{
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.amount-btn{
+  display: flex;
+  border-color: transparent;
+  background: transparent;
+}
