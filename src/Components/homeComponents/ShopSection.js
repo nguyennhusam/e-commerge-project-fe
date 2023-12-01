@@ -1,38 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link} from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
-// import products from "../../data/Products";
-// import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { listProduct } from "../../Redux/Actions/ProductActions";
 import Loading from "../LoadingError/Loading";
 import Error from "../LoadingError/Error";
 
 const ShopSection = () => {
-  // const [products, setProducts] = useState([]);
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     const { data } = await axios.get(
-  //       "http://localhost:4000/products/getallproduct"
-  //     );
-  //     setProducts(data);
-  //   };
-  //   fetchProducts();
-  // }, []);
-
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
+  // const productDetails = useSelector((state) => state.productDetails);
+  // const { product } = productDetails;
+
+  // const cartList = useSelector((state) => state.cartList);
+  // const { cartItem } = cartList;
+
   useEffect(() => {
     dispatch(listProduct());
   }, [dispatch]);
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-  };
 
   return (
     <>
@@ -56,20 +46,14 @@ const ShopSection = () => {
                           key={product._id}
                         >
                           <div className="border-product">
-                            <Link to={`/products/${product._id}`}>
-                              <div className="shopBack">
+                            <div className="shopBack">
+                              <Link to={`/products/${product._id}`}>
                                 <img
                                   src={product.images[0]}
                                   alt={product.name}
                                 />
-                                <button
-                                  className="add-to-cart-button"
-                                  onClick={handleAddToCart}
-                                >
-                                  Thêm vào giỏ hàng
-                                </button>
-                              </div>
-                            </Link>
+                              </Link>
+                            </div>
 
                             <div className="shoptext">
                               <p>

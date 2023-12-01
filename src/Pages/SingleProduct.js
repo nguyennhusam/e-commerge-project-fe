@@ -6,16 +6,19 @@ import Header from "../Components/Header";
 import Rating from "../Components/homeComponents/Rating";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { listProductDetails } from "../Redux/Actions/ProductActions";
+import {
+  listProductDetails,
+  createReview,
+} from "../Redux/Actions/ProductActions";
+import { addToCart } from "../Redux/Actions/CartActions";
 import Loading from "../Components/LoadingError/Loading";
 import Error from "../Components/LoadingError/Error";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 const SingleProduct = () => {
-  const [qty, setQty] = useState(1);
   const { id } = useParams();
+  console.log(id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,16 +26,24 @@ const SingleProduct = () => {
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+  console.log(userInfo);
+
+  const idUserIsLogin = userInfo.id;
+
+  const getReview = useSelector((state) => state.getReview);
+  const reviews = getReview?.productReview?.reviews;
+
+  console.log(reviews);
+
   const redirect = location.search
     ? location.search.split("=")[1]
     : `/products/${id}`;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   useEffect(() => {
     dispatch(listProductDetails(id));
-  }, [dispatch, id]);
+  }, []);
 
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -48,12 +59,14 @@ const SingleProduct = () => {
     }
   };
 
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    navigate(`carts/addproductInCart/${id}?quantity=${qty}`);
-  };
-
   const [amount, setAmount] = useState(1);
+  console.log(amount);
+
+  const [comment, setComment] = useState("");
+  console.log(comment);
+
+  const [rating, setRating] = useState("");
+  console.log(rating);
 
   const decrease = () => {
     setAmount((oldAmount) => {
@@ -72,6 +85,34 @@ const SingleProduct = () => {
       }
       return tempAmount;
     });
+  };
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    if (!userInfo) {
+      return;
+    }
+    dispatch(
+      addToCart({
+        id: id,
+        name: product.message.name,
+        price: product.message.price,
+        images: product.message.images[0],
+        quantity: amount,
+      })
+    );
+    navigate("/cart");
+  };
+
+  const postReview = () => {
+    dispatch(
+      createReview({
+        id: id,
+        content: comment,
+        rating: rating,
+      })
+    );
+    setComment("");
+    setRating("")
   };
 
   return (
@@ -190,15 +231,19 @@ const SingleProduct = () => {
                 <div className="col-md-6">
                   <h6 className="mb-3">ĐÁNH GIÁ</h6>
                   <Message variant={"alert-info mt-3"}>
-                    Không có đánh giá
+                    {`${product.message.numReviews} đánh giá`}
                   </Message>
                   <div className="mb-5 mb-md-3 bg-light p-3 shadow-sm rounded">
-                    <strong>Sam</strong>
-                    <Rating />
-                    <span>27, tháng 10, năm 2023</span>
-                    <div className="alert alert-info mt-3">
-                      Sản phẩm đẹp, vừa vặn, đánh giá 5 sao.
-                    </div>
+                    {reviews?.map((review) => (
+                      <>
+                        <strong>{review.owner.username}</strong>
+                        <Rating value={review.rating} />
+                        <span>{review.createdAt}</span>
+                        <div className="alert alert-info mt-3">
+                          {review.content}
+                        </div>
+                      </>
+                    ))}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -208,7 +253,11 @@ const SingleProduct = () => {
                   <form>
                     <div className="my-4">
                       <strong>Xếp hạng</strong>
-                      <select className="col-12 bg-light p-3 mt-2 border-0 rounded">
+                      <select
+                        className="col-12 bg-light p-3 mt-2 border-0 rounded"
+                        value={rating}
+                        onChange={(e) => setRating(e.target.value)}
+                      >
                         <option value="">Chọn...</option>
                         <option value="1">1 - Không hài lòng</option>
                         <option value="2">2 - Bình thường</option>
@@ -222,12 +271,36 @@ const SingleProduct = () => {
                       <textarea
                         row="3"
                         className="col-12 bg-light p-3 mt-2 border-0 rounded"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                       ></textarea>
                     </div>
                     <div className="my-3">
-                      <button className="col-12 bg-black border-0 p-3 rounded text-white">
-                        Gửi
-                      </button>
+                      {userInfo ? (
+                        <button
+                          className="col-12 bg-black border-0 p-3 rounded text-white"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            postReview();
+                          }}
+                          disabled={reviews.some(
+                            (review) => review.owner.id === idUserIsLogin
+                          )}
+                        >
+                          {reviews.some(
+                            (review) => review.owner.id === idUserIsLogin
+                          )
+                            ? "Bạn đã đánh giá sản phẩm này!"
+                            : "Gửi"}
+                        </button>
+                      ) : (
+                        <button
+                          className="col-12 bg-black border-0 p-3 rounded text-white button-disable"
+                          disabled
+                        >
+                          Gửi
+                        </button>
+                      )}
                     </div>
                   </form>
                   {!userInfo && (

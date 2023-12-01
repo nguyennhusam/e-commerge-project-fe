@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import Header from "./../Components/Header";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { listCart } from "../Redux/Actions/CartActions";
+import {
+  listCart,
+  decreaseCart,
+  increaseCart,
+  deleteCart,
+} from "../Redux/Actions/CartActions";
 import Error from "../Components/LoadingError/Error";
 import { FaPlus, FaMinus } from "react-icons/fa";
-
+import { listProductDetails } from "../Redux/Actions/ProductActions";
 
 const CartPage = () => {
   window.scrollTo(0, 0);
@@ -21,36 +26,62 @@ const CartPage = () => {
   const productDetails = useSelector((state) => state.productDetails);
   const { product } = productDetails;
 
-  console.log(cartItem);
-
-  // const userId = userInfo.id;
-  // console.log(userId);
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listCart());
   }, [dispatch]);
+  useEffect(() => {
+    console.log(cartItem);
+  }, [cartItem]);
+  // const [amount, setAmount] = useState(1);
 
-
-  const [amount, setAmount] = useState(1);
-
-  const decrease = () => {
-    setAmount((oldAmount) => {
-      let tempAmount = oldAmount - 1;
-      if (tempAmount < 1) {
-        tempAmount = 1;
+  const decrease = (cartID, productID) => {
+    const selectedItem = cartItem.productItem.find((item) => item.id === productID)
+    if(selectedItem) {
+      if(selectedItem.quantity === 1) { 
+        console.log(selectedItem.quantity)
+        return selectedItem.quantity
       }
-      return tempAmount;
-    });
+      return dispatch(decreaseCart({ cartID, productID }));
+    }
   };
-  const increase = () => {
-    setAmount((oldAmount) => {
-      let tempAmount = oldAmount + 1;
-      if (tempAmount > product.message.countInStock) {
-        tempAmount = product.message.countInStock;
+  const increase = (cartID, productID) => {
+    const selectedItem = cartItem.productItem.find((item) => item.id === productID)
+    dispatch(listProductDetails(productID))
+    console.log(product)
+    console.log(selectedItem)
+    if(selectedItem && product) {
+      if(selectedItem.quantity < product?.message?.countInStock) { 
+        console.log(selectedItem.quantity)
+        console.log(product.message.countInStock)
+        return dispatch(increaseCart({ cartID, productID }));
       }
-      return tempAmount;
-    });
+      else{
+        return product?.message?.countInStock
+      }
+    }
+  };
+
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString();
+  };
+  const calculateSubtotal = (item) => {
+    const subtotal = item.price * item.quantity;
+    return formatNumberWithCommas(subtotal);
+  };
+  const calculateTotal = () => {
+    let total = 0;
+    if (cartItem.productItem) {
+      cartItem.productItem.forEach((item) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+      });
+    }
+    return formatNumberWithCommas(total);
+  };
+
+  const removeProductInCart = (cartID, productID) => {
+    dispatch(deleteCart({ cartID, productID }));
   };
 
   return (
@@ -72,7 +103,12 @@ const CartPage = () => {
                   {cartItem.productItem.map((item) => (
                     <div className="cart-iterm row">
                       <div className="remove-button d-flex justify-content-center align-items-center">
-                        <i className="fas fa-times"></i>
+                        <i
+                          className="fas fa-times"
+                          onClick={() =>
+                            removeProductInCart(cartItem._id, item.id)
+                          }
+                        ></i>
                       </div>
                       <div
                         className="cart-image col-md-3"
@@ -81,33 +117,33 @@ const CartPage = () => {
                         <img src={item.images} alt="nike" />
                       </div>
                       <div className="cart-text col-md-5 d-flex align-items-center">
-                        <Link to="#">
+                        <Link to={`/products/${item.id}`}>
                           <h4>{item.name}</h4>
                         </Link>
                       </div>
                       <div className="cart-qty col-md-2 col-sm-5 mt-3 mt-md-0 d-flex flex-column justify-content-center">
                         <h6>Số lượng</h6>
                         <div className="grid-toggle-button">
-                              <button
-                                type="button"
-                                className="amount-btn"
-                                onClick={decrease}
-                              >
-                                <FaMinus />
-                              </button>
-                              <h2 className="amount">{amount}</h2>
-                              <button
-                                type="button"
-                                className="amount-btn"
-                                onClick={increase}
-                              >
-                                <FaPlus />
-                              </button>
-                            </div>
+                          <button
+                            type="button"
+                            className="amount-btn"
+                            onClick={() => decrease(cartItem._id, item.id)}
+                          >
+                            <FaMinus />
+                          </button>
+                          <h2 className="amount">{item.quantity}</h2>
+                          <button
+                            type="button"
+                            className="amount-btn"
+                            onClick={() => increase(cartItem._id, item.id)}
+                          >
+                            <FaPlus />
+                          </button>
+                        </div>
                       </div>
                       <div className="cart-price mt-3 mt-md-0 col-md-2 align-items-sm-end align-items-start  d-flex flex-column justify-content-center col-sm-7">
                         <h6>Thành tiền</h6>
-                        <h4>{item.price}đ</h4>
+                        <h4>{calculateSubtotal(item)}đ</h4>
                       </div>
                     </div>
                   ))}
@@ -121,7 +157,7 @@ const CartPage = () => {
                   {/* End of cart iterms */}
                   <div className="total">
                     <span className="sub">tổng cộng:</span>
-                    <span className="total-price">1.000.000đ</span>
+                    <span className="total-price">{calculateTotal()}đ</span>
                   </div>
                   <hr />
                   <div className="cart-buttons d-flex align-items-center row">
@@ -144,9 +180,12 @@ const CartPage = () => {
               <div className="shop-cart-title">
                 <h3>Không có sản phẩm nào trong giỏ hàng !</h3>
               </div>
-              <div className="cart-buttons d-flex align-items-center row" style={{ justifyContent: 'center' }}>
+              <div
+                className="cart-buttons d-flex align-items-center row"
+                style={{ justifyContent: "center" }}
+              >
                 <Link to="/" className="continue-shopping">
-                  <button style={{ width:'100%' }}>Tiếp tục mua sắm</button>
+                  <button style={{ width: "100%" }}>Tiếp tục mua sắm</button>
                 </Link>
               </div>
             </>

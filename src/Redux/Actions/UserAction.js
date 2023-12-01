@@ -1,4 +1,5 @@
 import axios from "axios";
+import { listCart } from "./CartActions";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -13,12 +14,13 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-    console.log(data)
+    // console.log(data)
     if (data.success) {
-      console.log(data.success)
+      // console.log(data.success)
       dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
       localStorage.setItem("userInfo", JSON.stringify(data));
       localStorage.setItem("access_token", data.access_token);
+      dispatch(listCart())
     } else {
       dispatch({ type: "USER_LOGIN_FAIL", payload: data.message });
     }
@@ -36,6 +38,8 @@ export const login = (email, password) => async (dispatch) => {
 // Log out
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("cartItems");
   dispatch({ type: "USER_LOGOUT" });
   document.location.href = "/login";
 };
@@ -56,9 +60,9 @@ export const register = (username, email, password) => async (dispatch) => {
       { username, email, password },
       config
     );
-    console.log(data)
+    // console.log(data)
     if(data.success) {
-      console.log("Đăng ký thành công:", data.success)
+      // console.log("Đăng ký thành công:", data.success)
       dispatch({ type: "USER_REGISTER_SUCCESS", payload: data });
       dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
   

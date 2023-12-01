@@ -748,3 +748,6 @@ textarea:focus {
   border-color: transparent;
   background: transparent;
 }
+.button-disable{
+  background-color: #999 !important;
+}
