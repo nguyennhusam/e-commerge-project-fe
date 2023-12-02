@@ -5,7 +5,6 @@ import Header from "../Components/Header";
 import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
-  window.scrollTo(0, 0);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   return (

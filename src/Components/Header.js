@@ -112,16 +112,11 @@ const Header = () => {
                   </Link>
                 </div>
                 <div className="col-12 d-flex align-items-center">
-                  <form className="input-group">
-                    <input
-                      type="search"
-                      className="form-control rounded search"
-                      placeholder="Nhập..."
-                    />
-                    <button type="submit" className="search-button">
-                      tìm kiếm
-                    </button>
-                  </form>
+                  <ul className="input-group menu">
+                    <li className="title-menu-header">Trang chủ</li>
+                    <li className="title-menu-header">Giới thiệu</li>
+                    <li className="title-menu-header">Liên hệ</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -136,16 +131,11 @@ const Header = () => {
                 </Link>
               </div>
               <div className="col-md-6 col-8 d-flex align-items-center">
-                <form className="input-group">
-                  <input
-                    type="search"
-                    className="form-control rounded search"
-                    placeholder="Nhập"
-                  />
-                  <button type="submit" className="search-button">
-                    tìm kiếm
-                  </button>
-                </form>
+                <ul className="input-group menu">
+                    <li className="title-menu-header">Trang chủ</li>
+                    <li className="title-menu-header">Giới thiệu</li>
+                    <li className="title-menu-header">Liên hệ</li>
+                </ul>
               </div>
               <div className="col-md-3 d-flex align-items-center justify-content-end Login-Register">
                 {userInfo ? (

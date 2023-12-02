@@ -30,8 +30,6 @@ const SingleProduct = () => {
   const { userInfo } = userLogin;
   console.log(userInfo);
 
-  const idUserIsLogin = userInfo.id;
-
   const getReview = useSelector((state) => state.getReview);
   const reviews = getReview?.productReview?.reviews;
 
@@ -89,6 +87,7 @@ const SingleProduct = () => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     if (!userInfo) {
+      navigate("/cart");
       return;
     }
     dispatch(
@@ -112,7 +111,7 @@ const SingleProduct = () => {
       })
     );
     setComment("");
-    setRating("")
+    setRating("");
   };
 
   return (
@@ -200,25 +199,13 @@ const SingleProduct = () => {
                               </button>
                             </div>
 
-                            {/* <select
-                              value={qty}
-                              onChange={(e) => setQty(e.target.value)}
-                            >
-                              {[
-                                ...Array(product.message.countInStock).keys(),
-                              ].map((x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              ))}
-                            </select> */}
                           </div>
                           <button
-                            className="round-black-btn"
-                            onClick={handleAddToCart}
-                          >
-                            Thêm vào giỏ hàng
-                          </button>
+                              className="round-black-btn"
+                              onClick={handleAddToCart}
+                            >
+                              Thêm vào giỏ hàng
+                            </button>
                         </>
                       ) : null}
                     </div>
@@ -284,11 +271,11 @@ const SingleProduct = () => {
                             postReview();
                           }}
                           disabled={reviews.some(
-                            (review) => review.owner.id === idUserIsLogin
+                            (review) => review.owner.id === userInfo.id
                           )}
                         >
                           {reviews.some(
-                            (review) => review.owner.id === idUserIsLogin
+                            (review) => review.owner.id === userInfo.id
                           )
                             ? "Bạn đã đánh giá sản phẩm này!"
                             : "Gửi"}

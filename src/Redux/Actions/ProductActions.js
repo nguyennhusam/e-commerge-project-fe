@@ -74,15 +74,8 @@ export const createReview = ({id, content, rating}) => async (dispatch) => {
 export const getReview = (id) => async (dispatch) => {
   try {
     dispatch({ type: "GET_REVIEW_REQUEST" });
-    const config = {
-      headers: 
-      {
-        token: "Bearer " + localStorage.getItem("access_token"),
-      }
-    };
-    console.log(config)
     const { data } = await axios.get(
-      `http://localhost:4000/review/${id}`, config
+      `http://localhost:4000/review/${id}`
     );
     dispatch({ type: "GET_REVIEW_SUCCESS", payload: data });
   } catch (error) {

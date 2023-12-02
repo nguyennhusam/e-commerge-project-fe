@@ -4,7 +4,6 @@ import Header from "./../Components/Header";
 // import { PayPalButton } from "react-paypal-button-v2";
 
 const OrderPage = () => {
-  window.scrollTo(0, 0);
 
   return (
     <>

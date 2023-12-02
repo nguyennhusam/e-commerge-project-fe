@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "./../Components/Header";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +13,6 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import { listProductDetails } from "../Redux/Actions/ProductActions";
 
 const CartPage = () => {
-  window.scrollTo(0, 0);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const location = useLocation();
@@ -36,28 +34,31 @@ const CartPage = () => {
   // const [amount, setAmount] = useState(1);
 
   const decrease = (cartID, productID) => {
-    const selectedItem = cartItem.productItem.find((item) => item.id === productID)
-    if(selectedItem) {
-      if(selectedItem.quantity === 1) { 
-        console.log(selectedItem.quantity)
-        return selectedItem.quantity
+    const selectedItem = cartItem.productItem.find(
+      (item) => item.id === productID
+    );
+    if (selectedItem) {
+      if (selectedItem.quantity === 1) {
+        console.log(selectedItem.quantity);
+        return selectedItem.quantity;
       }
       return dispatch(decreaseCart({ cartID, productID }));
     }
   };
   const increase = (cartID, productID) => {
-    const selectedItem = cartItem.productItem.find((item) => item.id === productID)
-    dispatch(listProductDetails(productID))
-    console.log(product)
-    console.log(selectedItem)
-    if(selectedItem && product) {
-      if(selectedItem.quantity < product?.message?.countInStock) { 
-        console.log(selectedItem.quantity)
-        console.log(product.message.countInStock)
+    const selectedItem = cartItem.productItem.find(
+      (item) => item.id === productID
+    );
+    dispatch(listProductDetails(productID));
+    console.log(product);
+    console.log(selectedItem);
+    if (selectedItem && product) {
+      if (selectedItem.quantity < product?.message?.countInStock) {
+        console.log(selectedItem.quantity);
+        console.log(product.message.countInStock);
         return dispatch(increaseCart({ cartID, productID }));
-      }
-      else{
-        return product?.message?.countInStock
+      } else {
+        return product?.message?.countInStock;
       }
     }
   };
@@ -97,9 +98,7 @@ const CartPage = () => {
                   <div className=" alert alert-info text-center mt-3">
                     TỔNG SỐ SẢN PHẨM ({cartItem.productItem.length})
                   </div>
-                  {/* cartitem */}
-                  {/* {cartItem.productItem ? (
-                <> */}
+
                   {cartItem.productItem.map((item) => (
                     <div className="cart-iterm row">
                       <div className="remove-button d-flex justify-content-center align-items-center">
@@ -147,12 +146,6 @@ const CartPage = () => {
                       </div>
                     </div>
                   ))}
-                  {/* </>
-              ) : (
-                <div className="shop-cart-title">
-                  <h3>Không có sản phẩm nào trong giỏ hàng !</h3>
-                </div>
-              )} */}
 
                   {/* End of cart iterms */}
                   <div className="total">
@@ -165,11 +158,15 @@ const CartPage = () => {
                       <button>Tiếp tục mua sắm</button>
                     </Link>
                     <div className="col-md-6 d-flex justify-content-md-end mt-3 mt-md-0">
-                      <button>
-                        <Link to="/shipping" className="text-white">
-                          Thanh toán
-                        </Link>
-                      </button>
+                      {cartItem.productItem.length !== 0 ? (
+                        <button>
+                          <Link to="/placeorder" className="text-white">
+                            Thanh toán
+                          </Link>
+                        </button>
+                      ) : (
+                        <button disabled>Thanh toán</button>
+                      )}
                     </div>
                   </div>
                 </div>

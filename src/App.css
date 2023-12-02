@@ -61,8 +61,9 @@ textarea:focus {
   width: 60%;
 }
 .input-group {
-  height: 50px;
-  width: 90%;
+  margin-right: 24px;
+  height: 45px;
+  width: 30%;
 }
 .search-button {
   width: 20%;
@@ -750,4 +751,20 @@ textarea:focus {
 }
 .button-disable{
   background-color: #999 !important;
+}
+.menu {
+  width: 90%;
+  margin-bottom: 0;
+  padding-left: 0;
+  justify-content: flex-end;
+  align-content: center;
+}
+.title-menu-header {
+  list-style-type: none; 
+  text-align: center; 
+  font-family: 'Roboto', sans-serif; 
+  font-size: 18px; 
+  font-weight: bold; 
+  margin: 0; 
+  padding: 0 20px 0 20px;
 }

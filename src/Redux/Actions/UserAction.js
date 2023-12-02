@@ -60,14 +60,8 @@ export const register = (username, email, password) => async (dispatch) => {
       { username, email, password },
       config
     );
-    // console.log(data)
     if(data.success) {
-      // console.log("Đăng ký thành công:", data.success)
       dispatch({ type: "USER_REGISTER_SUCCESS", payload: data });
-      dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
-  
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      localStorage.setItem("access_token", data.access_token);
     }
     else {
       dispatch({ type: "USER_REGISTER_FAIL", payload: data.message });

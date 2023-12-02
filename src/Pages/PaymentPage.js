@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "./../Components/Header";
 
 const PaymentPage = () => {
-  window.scrollTo(0, 0);
 
   const [select, setSelect] = useState("COD");
   const handlePaymentChange = (e) => {

@@ -7,7 +7,6 @@ import Loading from "../Components/LoadingError/Loading";
 import Error from "../Components/LoadingError/Error";
 
 const Login = () => {
-  window.scrollTo(0, 0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

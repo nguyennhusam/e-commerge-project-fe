@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../Redux/Actions/UserAction";
@@ -7,7 +7,6 @@ import Loading from "../Components/LoadingError/Loading";
 import Error from "../Components/LoadingError/Error";
 
 const Register = () => {
-  window.scrollTo(0, 0);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,16 +14,14 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const redirect = location.search ? location.search.split("=")[1] : "/";
 
-  const userRegister = useSelector((state) => state.userRegister);
-  const { error, loading, userInfo } = userRegister;
+  const userRegisterInfo = useSelector((state) => state.userRegister);
+  const { error, loading, userRegister } = userRegisterInfo;
   useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
+    if (userRegister) {
+      navigate('/login');
     }
-  }, [userInfo, navigate, redirect]);
+  }, [userRegister, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -62,7 +59,7 @@ const Register = () => {
 
           <button type="submit">Đăng ký</button>
           <p>
-            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+            <Link to="/login">
               Bạn đã có tài khoản? <strong>Đăng nhập</strong>
             </Link>
           </p>
