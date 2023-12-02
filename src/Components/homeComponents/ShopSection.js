@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import Pagination from "./pagination";
@@ -7,7 +7,6 @@ import { listProduct } from "../../Redux/Actions/ProductActions";
 import Loading from "../LoadingError/Loading";
 import Error from "../LoadingError/Error";
 import { FaSearch } from "react-icons/fa";
-
 
 const ShopSection = () => {
   const dispatch = useDispatch();
@@ -21,6 +20,8 @@ const ShopSection = () => {
   // const cartList = useSelector((state) => state.cartList);
   // const { cartItem } = cartList;
 
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     dispatch(listProduct());
   }, [dispatch]);
@@ -29,15 +30,26 @@ const ShopSection = () => {
     <>
       {products.data && (
         <div className="container" style={{ marginTop: "50px" }}>
-          <div className="shop col-lg-4 col-md-6 col-sm-6" style={{ display:"flex", width: "100%", justifyContent: "flex-end", marginBottom: "0" }}>
-            <form className="input-group">
+          <div
+            className="shop col-lg-4 col-md-6 col-sm-6"
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "flex-end",
+              marginBottom: "0",
+            }}
+          >
+            <form
+              className="input-group"
+              onChange={(e) => setSearch(e.target.value)}
+            >
               <input
                 type="search"
                 className="form-control rounded search"
                 placeholder="Nhập"
               />
               <button type="submit" className="search-button">
-                <FaSearch/>
+                <FaSearch />
               </button>
             </form>
           </div>
@@ -53,37 +65,43 @@ const ShopSection = () => {
                     <Error variant="alert-danger">{error}</Error>
                   ) : (
                     <>
-                      {products.data.map((product) => (
-                        <div
-                          className="shop col-lg-4 col-md-6 col-sm-6"
-                          key={product._id}
-                        >
-                          <div className="border-product">
-                            <div className="shopBack">
-                              <Link to={`/products/${product._id}`}>
-                                <img
-                                  src={product.images[0]}
-                                  alt={product.name}
-                                />
-                              </Link>
-                            </div>
-
-                            <div className="shoptext">
-                              <p>
+                      {products.data
+                        .filter((product) => {
+                          return search.toLowerCase() === ""
+                            ? product
+                            : product.name.toLowerCase().includes(search);
+                        })
+                        .map((product) => (
+                          <div
+                            className="shop col-lg-4 col-md-6 col-sm-6"
+                            key={product._id}
+                          >
+                            <div className="border-product">
+                              <div className="shopBack">
                                 <Link to={`/products/${product._id}`}>
-                                  {product.name}
+                                  <img
+                                    src={product.images[0]}
+                                    alt={product.name}
+                                  />
                                 </Link>
-                              </p>
+                              </div>
 
-                              <Rating
-                                value={product.rating}
-                                text={`${product.numReviews} đánh giá`}
-                              />
-                              <h3>{product.price}đ</h3>
+                              <div className="shoptext">
+                                <p>
+                                  <Link to={`/products/${product._id}`}>
+                                    {product.name}
+                                  </Link>
+                                </p>
+
+                                <Rating
+                                  value={product.rating}
+                                  text={`${product.numReviews} đánh giá`}
+                                />
+                                <h3>{product.price}đ</h3>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </>
                   )}
 

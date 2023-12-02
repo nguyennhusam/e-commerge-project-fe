@@ -8,8 +8,6 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ProfilePage from "./Pages/ProfilePage";
 import CartPage from "./Pages/CartPage";
-import ShippingPage from "./Pages/ShippingPage";
-import PaymentPage from "./Pages/PaymentPage";
 import PlaceOrderPage from "./Pages/PlaceOrderPage";
 import OrderPage from "./Pages/OrderPage";
 import NotFound from "./Pages/NotFound";
@@ -24,8 +22,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/cart/:id?" element={<CartPage />} />
-        <Route path="/shipping" element={<ShippingPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order" element={<OrderPage />} />
         <Route path="*" element={<NotFound />} />

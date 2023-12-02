@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "./../Components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder } from "../Redux/Actions/OrderActions";
+import Error from "../Components/LoadingError/Error";
 
 const PlaceOrderPage = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("COD");
@@ -10,6 +11,7 @@ const PlaceOrderPage = () => {
     selectedPaymentMethod === "COD" ? "COD" : "Card Banking";
 
   const [address, setAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,6 +62,10 @@ const PlaceOrderPage = () => {
 
   const submitCreateOrder = (e) => {
     e.preventDefault();
+    if (!address.trim()) {
+      setAddressError("Địa chỉ giao hàng không được để trống");
+      return;
+    }
     const productList = cartItem.productItem.map(item => ({
       id: item.id,
       name: item.name,
@@ -133,7 +139,7 @@ const PlaceOrderPage = () => {
                   <h5>
                     <strong>GIAO HÀNG TỚI</strong>
                   </h5>
-                  <p>Địa chỉ: abc, đường số 19, Linh Chiểu, Thủ Đức, TP.HCM</p>
+                  <p>Địa chỉ: </p>
                 </div>
               </div>
             </div>
@@ -153,8 +159,12 @@ const PlaceOrderPage = () => {
                 type="text"
                 placeholder="Nhập địa chỉ"
                 value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                  setAddressError("");
+                }}
               />
+              {addressError && <Error variant="alert-danger">{addressError}</Error>}
             </form>
             <div className="Login2 col-md-8 col-lg-4 col-11">
               <div className="payment-container">
@@ -195,7 +205,7 @@ const PlaceOrderPage = () => {
                       <img src={item.images} alt="product" />
                     </div>
                     <div className="col-md-5 col-6 d-flex align-items-center">
-                      <Link to={"/"}>
+                      <Link to={`/products/${item.id}`}>
                         <h6>{item.name}</h6>
                       </Link>
                     </div>

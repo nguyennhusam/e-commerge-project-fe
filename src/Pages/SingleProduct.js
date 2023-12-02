@@ -15,6 +15,7 @@ import { addToCart } from "../Redux/Actions/CartActions";
 import Loading from "../Components/LoadingError/Loading";
 import Error from "../Components/LoadingError/Error";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { format } from 'date-fns';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -225,7 +226,7 @@ const SingleProduct = () => {
                       <>
                         <strong>{review.owner.username}</strong>
                         <Rating value={review.rating} />
-                        <span>{review.createdAt}</span>
+                        <span>{format(new Date(review.createdAt), 'yyyy-MM-dd')}</span>
                         <div className="alert alert-info mt-3">
                           {review.content}
                         </div>

@@ -1,9 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "./../Components/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { format } from 'date-fns';
 // import { PayPalButton } from "react-paypal-button-v2";
 
 const OrderPage = () => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const order = useSelector((state) => state.order);
+  const { orderList } = order;
+  console.log(orderList);
+
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString();
+  };
+  const shipping = formatNumberWithCommas(30000);
+  const vat = formatNumberWithCommas(5000);
+  const calculateSubtotal = (item) => {
+    const subtotal = item.price * item.quantity;
+    return formatNumberWithCommas(subtotal);
+  };
+
+  const totalPayment = () => {
+    const totalPayment = orderList.data.total + 35000;
+    return formatNumberWithCommas(totalPayment);
+  };
 
   return (
     <>
@@ -21,9 +44,9 @@ const OrderPage = () => {
                 <h5>
                   <strong>KHÁCH HÀNG</strong>
                 </h5>
-                <p>Sam</p>
+                <p>{userInfo.username}</p>
                 <p>
-                  <a href={`mailto:admin@example.com`}>sam@gmail.com</a>
+                  <a href={`mailto:admin@example.com`}>{userInfo.email}</a>
                 </p>
               </div>
             </div>
@@ -40,7 +63,7 @@ const OrderPage = () => {
                 <h5>
                   <strong>THÔNG TIN ĐẶT HÀNG</strong>
                 </h5>
-                <p>Shipping: TP.HCM</p>
+                <p>Phí Ship: 30.000đ</p>
                 <p>Phương thức thanh toán: COD</p>
 
                 <div
@@ -48,7 +71,7 @@ const OrderPage = () => {
                   style={{ borderRadius: "10px" }}
                 >
                   <p className="text-white text-center text-sm-start">
-                    Thanh toán: 27-10-2023
+                    Thanh toán: {format(new Date(orderList.data.createdAt), 'yyyy-MM-dd')}
                   </p>
                 </div>
               </div>
@@ -66,7 +89,7 @@ const OrderPage = () => {
                 <h5>
                   <strong>GIAO HÀNG TỚI</strong>
                 </h5>
-                <p>Địa chỉ: abc, đường số 19, Linh Chiểu, Thủ Đức, TP.HCM</p>
+                <p>Địa chỉ: {orderList.data.shipAddress}</p>
                 <div
                   className="bg-danger p-2 col-12"
                   style={{ borderRadius: "10px" }}
@@ -84,24 +107,28 @@ const OrderPage = () => {
           <div className="col-lg-8">
             {/* <Message variant="alert-info mt-5">Your order is empty</Message> */}
 
-            <div className="order-product row">
-              <div className="col-md-3 col-6">
-                <img src="/images/3.png" alt="product" />
-              </div>
-              <div className="col-md-5 col-6 d-flex align-items-center">
-                <Link to={`/`}>
-                  <h6>Áo thun đen họa tiết chữ</h6>
-                </Link>
-              </div>
-              <div className="mt-3 mt-md-0 col-6 col-md-2  d-flex align-items-center flex-column justify-content-center ">
-                <h4>SỐ LƯỢNG</h4>
-                <h6>4</h6>
-              </div>
-              <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center">
-                <h4>TỔNG TIỀN</h4>
-                <h6>1.000.000đ</h6>
-              </div>
-            </div>
+            {orderList.data.productItem.map((item) => (
+              <>
+                <div className="order-product row">
+                  <div className="col-md-3 col-6">
+                    <img src="/images/3.png" alt="product" />
+                  </div>
+                  <div className="col-md-5 col-6 d-flex align-items-center">
+                    <Link to={`/products/${item.id}`}>
+                      <h6>{item.name}</h6>
+                    </Link>
+                  </div>
+                  <div className="mt-3 mt-md-0 col-6 col-md-2  d-flex align-items-center flex-column justify-content-center ">
+                    <h4>SỐ LƯỢNG</h4>
+                    <h6>{item.quantity}</h6>
+                  </div>
+                  <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center">
+                    <h4>TỔNG TIỀN</h4>
+                    <h6>{calculateSubtotal(item)}đ</h6>
+                  </div>
+                </div>
+              </>
+            ))}
           </div>
           {/* total */}
           <div className="col-lg-3 d-flex align-items-end flex-column mt-5 subtotal-order">
@@ -111,25 +138,25 @@ const OrderPage = () => {
                   <td>
                     <strong>Tổng các sản phẩm</strong>
                   </td>
-                  <td>1.000.000đ</td>
+                  <td>{formatNumberWithCommas(orderList.data.total)}đ</td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Phí ship</strong>
                   </td>
-                  <td>30.000đ</td>
+                  <td>{shipping}đ</td>
                 </tr>
                 <tr>
                   <td>
                     <strong>Thuế</strong>
                   </td>
-                  <td>5.000đ</td>
+                  <td>{vat}đ</td>
                 </tr>
                 <tr>
                   <td>
                     <strong>TỔNG</strong>
                   </td>
-                  <td>1.035.000đ</td>
+                  <td>{totalPayment()}đ</td>
                 </tr>
               </tbody>
             </table>
