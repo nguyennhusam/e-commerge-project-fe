@@ -1,4 +1,5 @@
 import axios from "axios";
+import { listCart } from "./CartActions";
 
 export const createOrder = ({shipAddress, listProduct}) => async (dispatch) => {
     try {
@@ -18,6 +19,7 @@ export const createOrder = ({shipAddress, listProduct}) => async (dispatch) => {
         "http://localhost:4000/orders/createOrder", orderData, config
       );
       dispatch({ type: "CREATE_ORDER_SUCCESS", payload: data });
+      dispatch(listCart())
     } catch (error) {
       dispatch({
         type: "CREATE_ORDER_FAIL",

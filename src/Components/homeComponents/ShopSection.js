@@ -22,13 +22,27 @@ const ShopSection = () => {
 
   const [search, setSearch] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 6;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.data?.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  // Thay đổi trang
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
   useEffect(() => {
     dispatch(listProduct());
   }, [dispatch]);
 
   return (
     <>
-      {products.data && (
+      {currentProducts && (
         <div className="container" style={{ marginTop: "50px" }}>
           <div
             className="shop col-lg-4 col-md-6 col-sm-6"
@@ -65,7 +79,7 @@ const ShopSection = () => {
                     <Error variant="alert-danger">{error}</Error>
                   ) : (
                     <>
-                      {products.data
+                      {currentProducts
                         .filter((product) => {
                           return search.toLowerCase() === ""
                             ? product
@@ -106,7 +120,12 @@ const ShopSection = () => {
                   )}
 
                   {/* Pagination */}
-                  <Pagination />
+                  <Pagination
+                    productsPerPage={productsPerPage}
+                    totalProducts={products.data?.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                  />
                 </div>
               </div>
             </div>

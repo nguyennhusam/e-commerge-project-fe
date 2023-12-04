@@ -1,35 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-const Pagination = () => {
+const Pagination = ({
+  productsPerPage,
+  totalProducts,
+  paginate,
+  currentPage,
+}) => {
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
+    pageNumbers.push(i);
+  }
   return (
     <nav>
       <ul className="pagination justify-content-center">
-        <li className={`page-item active`}>
-          <Link className="page-link" to={"#"}>
-            1
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            2
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            3
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            4
-          </Link>
-        </li>
-        <li className={`page-item`}>
-          <Link className="page-link" to={"#"}>
-            5
-          </Link>
-        </li>
+        {pageNumbers.map((number) => (
+          <li
+            key={number}
+            className={`page-item ${number === currentPage ? "active" : ""}`}
+          >
+            <button
+              className="page-link"
+              onClick={() => {
+                paginate(number);
+              }}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
       </ul>
     </nav>
   );

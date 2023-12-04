@@ -31,7 +31,8 @@ const OrderPage = () => {
   return (
     <>
       <Header />
-      <div className="container" style={{ marginTop: "40px" }}>
+      {orderList.data && (
+        <div className="container" style={{ marginTop: "40px" }}>
         <div className="row  order-detail">
           <div className="col-lg-4 col-sm-4 mb-lg-4 mb-5 mb-sm-0">
             <div className="row">
@@ -111,7 +112,7 @@ const OrderPage = () => {
               <>
                 <div className="order-product row">
                   <div className="col-md-3 col-6">
-                    <img src="/images/3.png" alt="product" />
+                    <img src={item.images} alt="product" />
                   </div>
                   <div className="col-md-5 col-6 d-flex align-items-center">
                     <Link to={`/products/${item.id}`}>
@@ -164,6 +165,8 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
+      )}
+      
     </>
   );
 };
