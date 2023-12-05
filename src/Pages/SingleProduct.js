@@ -85,12 +85,16 @@ const SingleProduct = () => {
       return tempAmount;
     });
   };
+
+  const [isFlying, setIsFlying] = useState(false);
+
   const handleAddToCart = (e) => {
     e.preventDefault();
     if (!userInfo) {
       navigate("/cart");
       return;
     }
+    setIsFlying(true);
     dispatch(
       addToCart({
         id: id,
@@ -100,7 +104,10 @@ const SingleProduct = () => {
         quantity: amount,
       })
     );
-    navigate("/cart");
+    setTimeout(() => {
+      setIsFlying(false);
+    }, 1000);
+    // navigate("/cart");
   };
 
   const postReview = () => {
@@ -140,6 +147,7 @@ const SingleProduct = () => {
                     <img
                       src={product.message.images[imageIndex]}
                       alt={product.message.name}
+                      className={`${isFlying ? "flying-img" : ""}`}
                     />
                     <div className="imageControls right">
                       <button

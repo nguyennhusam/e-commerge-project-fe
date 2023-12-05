@@ -1,7 +1,7 @@
 import React from "react";
 
 const Error = ({ variant, children }) => {
-  return <div className={`alert ${variant}`}>{children}</div>;
+  return <div style={{ textAlign: "center" }} className={`alert ${variant}`}>{children}</div>;
 };
 
 Error.defaultProps = {

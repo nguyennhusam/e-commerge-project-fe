@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../Redux/Actions/UserAction";
@@ -132,9 +132,21 @@ const Header = () => {
               </div>
               <div className="col-md-6 col-8 d-flex align-items-center">
                 <ul className="input-group menu">
-                    <li className="title-menu-header">Trang chủ</li>
-                    <li className="title-menu-header">Giới thiệu</li>
-                    <li className="title-menu-header">Liên hệ</li>
+                  <li className="title-menu-header">
+                    <Link to="/">
+                      Trang chủ
+                    </Link>
+                  </li>
+                  <li className="title-menu-header">
+                    <Link to="/">
+                      Giới thiệu
+                    </Link>
+                  </li>
+                  <li className="title-menu-header">
+                    <Link to="/">
+                      Liên hệ
+                    </Link>
+                  </li>
                 </ul>
               </div>
               <div className="col-md-3 d-flex align-items-center justify-content-end Login-Register">
@@ -169,7 +181,7 @@ const Header = () => {
                     <Link to="/login">Đăng nhập</Link>
                   </>
                 )}
-                <Link to="/cart">
+                <Link to="/cart" className="cart-icon">
                   <i className="fas fa-shopping-bag"></i>
                   {cartList.error ? (
                     <span className="badge"></span>

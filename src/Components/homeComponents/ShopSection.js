@@ -13,6 +13,8 @@ const ShopSection = () => {
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
+  console.log(loading);
+  console.log(error);
 
   // const productDetails = useSelector((state) => state.productDetails);
   // const { product } = productDetails;
@@ -27,7 +29,7 @@ const ShopSection = () => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.data?.slice(
+  const currentProducts = products?.data?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
@@ -35,52 +37,53 @@ const ShopSection = () => {
   // Thay đổi trang
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
   useEffect(() => {
     dispatch(listProduct());
   }, [dispatch]);
 
   return (
     <>
-      {currentProducts && (
+      {loading ? (
         <div className="container" style={{ marginTop: "50px" }}>
-          <div
-            className="shop col-lg-4 col-md-6 col-sm-6"
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "flex-end",
-              marginBottom: "0",
-            }}
-          >
-            <form
-              className="input-group"
-              onChange={(e) => setSearch(e.target.value)}
-            >
-              <input
-                type="search"
-                className="form-control rounded search"
-                placeholder="Nhập"
-              />
-              <button type="submit" className="search-button">
-                <FaSearch />
-              </button>
-            </form>
+          <div className="mb-5">
+            <Loading />
           </div>
-          <div className="section">
-            <div className="row">
-              <div className="col-lg-12 col-md-12 article">
-                <div className="shopcontainer row">
-                  {loading ? (
-                    <div className="mb-5">
-                      <Loading />
-                    </div>
-                  ) : error ? (
-                    <Error variant="alert-danger">{error}</Error>
-                  ) : (
-                    <>
+        </div>
+      ) : error ? (
+        <Error variant="alert-danger">Không tìm thấy sản phẩm nào !</Error>
+      ) : (
+        <>
+          {currentPage && (
+            <div className="container" style={{ marginTop: "50px" }}>
+              <div
+                className="shop col-lg-4 col-md-6 col-sm-6"
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "flex-end",
+                  marginBottom: "0",
+                }}
+              >
+                <form
+                  className="input-group"
+                  onChange={(e) => setSearch(e.target.value)}
+                >
+                  <input
+                    type="search"
+                    className="form-control rounded search"
+                    placeholder="Nhập"
+                  />
+                  <button type="submit" className="search-button">
+                    <FaSearch />
+                  </button>
+                </form>
+              </div>
+              <div className="section">
+                <div className="row">
+                  <div className="col-lg-12 col-md-12 article">
+                    <div className="shopcontainer row">
                       {currentProducts
-                        .filter((product) => {
+                        ?.filter((product) => {
                           return search.toLowerCase() === ""
                             ? product
                             : product.name.toLowerCase().includes(search);
@@ -116,21 +119,21 @@ const ShopSection = () => {
                             </div>
                           </div>
                         ))}
-                    </>
-                  )}
 
-                  {/* Pagination */}
-                  <Pagination
-                    productsPerPage={productsPerPage}
-                    totalProducts={products.data?.length}
-                    paginate={paginate}
-                    currentPage={currentPage}
-                  />
+                      {/* Pagination */}
+                      <Pagination
+                        productsPerPage={productsPerPage}
+                        totalProducts={products.data?.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </>
   );

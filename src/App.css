@@ -271,7 +271,8 @@ textarea:focus {
   font-style: normal;
   height: 51px;
   letter-spacing: 0;
-  text-align: center;
+  text-align: start;
+  padding-left: 30px;
   width: 460px;
 }
 .form-section input[type="submit"] {
@@ -331,7 +332,7 @@ textarea:focus {
   margin-right: 20px;
   height: 700px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: relative;
   text-align: center;
@@ -764,7 +765,53 @@ textarea:focus {
   text-align: center; 
   font-family: 'Roboto', sans-serif; 
   font-size: 18px; 
-  font-weight: bold; 
   margin: 0; 
   padding: 0 20px 0 20px;
+  letter-spacing: 1px;
+}
+.title-menu-header a {
+  color: #535353;
+  padding-bottom: 5px;
+}
+.title-menu-header a:hover {
+  color: #176B87;
+  padding-bottom: 5px;
+}
+.title-menu-header a::after {
+  content: "";
+  display: block;
+  width: 0;
+  bottom: 1px;
+  height: 3px;
+  transition: width 0.4s ease;
+  background: #176B87;
+  border-radius: 16px;
+}
+.title-menu-header a:hover::after  {
+  width: 100%;
+}
+.flying-img {
+  position: absolute;
+  animation: fly_to_cart 1s ease-in-out infinite;
+}
+@keyframes fly_to_cart {
+  0% {
+    left: 0;
+    bottom: 0;
+  }
+  45%, 50% {
+    left: 800px;
+    bottom: 60px;
+    transform: scale(.3);
+  }
+  80%, 90% {
+    left: 950px;
+    bottom: 450px;
+    transform: scale(.2);
+  }
+  100% {
+    left: calc(950px + 40px);
+    bottom: 450px;
+    transform: scale(.1);
+  }
 }
