@@ -1,5 +1,6 @@
 import axios from "axios";
 import { listCart } from "./CartActions";
+import { toast } from "react-toastify";
 
 export const createOrder = ({shipAddress, listProduct}) => async (dispatch) => {
     try {
@@ -20,6 +21,7 @@ export const createOrder = ({shipAddress, listProduct}) => async (dispatch) => {
       );
       dispatch({ type: "CREATE_ORDER_SUCCESS", payload: data });
       dispatch(listCart())
+      toast.success("Đặt hàng thành công!")
     } catch (error) {
       dispatch({
         type: "CREATE_ORDER_FAIL",

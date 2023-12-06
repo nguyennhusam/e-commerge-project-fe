@@ -1,5 +1,6 @@
 import axios from "axios";
 import { listCart } from "./CartActions";
+import { toast } from 'react-toastify';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -18,6 +19,7 @@ export const login = (email, password) => async (dispatch) => {
     if (data.success) {
       // console.log(data.success)
       dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
+      toast.success("Đăng nhập thành công!");
       localStorage.setItem("userInfo", JSON.stringify(data));
       localStorage.setItem("access_token", data.access_token);
       dispatch(listCart())
@@ -37,11 +39,11 @@ export const login = (email, password) => async (dispatch) => {
 
 // Log out
 export const logout = () => (dispatch) => {
+  dispatch({ type: "USER_LOGOUT" });
   localStorage.removeItem("userInfo");
   localStorage.removeItem("access_token");
   localStorage.removeItem("cartItems");
-  dispatch({ type: "USER_LOGOUT" });
-  document.location.href = "/login";
+  toast.success("Đăng xuất thành công!")
 };
 
 
@@ -62,6 +64,8 @@ export const register = (username, email, password) => async (dispatch) => {
     );
     if(data.success) {
       dispatch({ type: "USER_REGISTER_SUCCESS", payload: data });
+      toast.success("Đăng ký thành công!")
+
     }
     else {
       dispatch({ type: "USER_REGISTER_FAIL", payload: data.message });

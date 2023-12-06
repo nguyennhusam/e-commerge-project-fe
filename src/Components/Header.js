@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../Redux/Actions/UserAction";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const Header = () => {
 
   const LogoutHandler = () => {
     dispatch(logout());
-    // console.log("Logout")
   };
   return (
     <div>
@@ -183,7 +183,9 @@ const Header = () => {
                 )}
                 <Link to="/cart" className="cart-icon">
                   <i className="fas fa-shopping-bag"></i>
-                  {cartList.error ? (
+                  {userInfo && (
+                    <>
+                    {cartList.error ? (
                     <span className="badge"></span>
                   ) : (
                     <>
@@ -194,22 +196,10 @@ const Header = () => {
                       )}
                     </>
                   )}
+                    </>
+                  )}
+                  
                 </Link>
-                {/* {!cartList.error ? (
-                  <>
-                    {cartItem.productItem && (
-                      <Link to="/cart">
-                        <i className="fas fa-shopping-bag"></i>
-                        <span className="badge">{cartItem.productItem.length}</span>
-                      </Link>
-                    )}
-                  </>
-                ) : (
-                  <Link to="/cart">
-                    <i className="fas fa-shopping-bag"></i>
-                    <span className="badge">0</span>
-                  </Link>
-                )} */}
               </div>
             </div>
           </div>

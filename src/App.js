@@ -11,6 +11,8 @@ import CartPage from "./Pages/CartPage";
 import PlaceOrderPage from "./Pages/PlaceOrderPage";
 import OrderPage from "./Pages/OrderPage";
 import NotFound from "./Pages/NotFound";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
         <Route path="/order" element={<OrderPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer position="top-right" />
     </Router>
   );
 }

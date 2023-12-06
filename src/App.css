@@ -815,3 +815,24 @@ textarea:focus {
     transform: scale(.1);
   }
 }
+.Toastify__toast {
+  text-transform: capitalize;
+  background: #176B87 !important;
+  margin-top: 5px;
+}
+.Toastify__toast-body {
+  background: #176B87;
+  color: #ffffff;
+}
+.Toastify__toast-container {
+  margin-top: 30px;
+}
+.Toastify__progress-bar--success {
+  background: #ffffff !important;
+}
+.Toastify__toast-icon {
+  color: #ffffff !important;
+}
+.Toastify__toast-icon svg {
+  fill: #ffffff !important;
+}
