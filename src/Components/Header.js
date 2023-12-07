@@ -12,11 +12,25 @@ const Header = () => {
   const cartList = useSelector((state) => state.cartList);
   const { cartItem } = cartList;
 
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const LogoutHandler = () => {
     dispatch(logout());
   };
   return (
-    <div>
+    <div className={`full-header ${isScrolled ? "is-scroll-top" : ""}`}>
       {/* Top Header */}
       <div className="Announcement ">
         <div className="container">
@@ -138,7 +152,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="title-menu-header">
-                    <Link to="/">
+                    <Link to="/about">
                       Giới thiệu
                     </Link>
                   </li>

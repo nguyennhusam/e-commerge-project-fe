@@ -13,12 +13,14 @@ import OrderPage from "./Pages/OrderPage";
 import NotFound from "./Pages/NotFound";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AboutPage from "./Pages/AboutPage"
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" exact element={<HomePage />} />
+        <Route path="/about" exact element={<AboutPage />} />
         <Route path="/products/:id" element={<SingleProduct />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
