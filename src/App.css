@@ -865,12 +865,20 @@ textarea:focus {
   font-weight: bold;
   color: #102a42;
 }
-.title .underline {
+.underline {
   margin-left: 0px;
   margin-right: auto;
   width: 6rem;
+  border-radius: 10px;
   height: 0.25rem;
   background: #102a42;
+}
+.slide-content .underline {
+  margin-bottom: 15px;
+  width: 6rem;
+  height: 0.45rem;
+  border-radius: 10px;
+  background: #000000;
 }
 .description-about-page{
   margin: 2rem auto 0px;
@@ -914,6 +922,10 @@ textarea:focus {
   text-transform: uppercase;
   font-weight: bold;
 }
+h2{
+  color: #102a42;
+  /* font-weight: bold; */
+}
 
 .slide-content p {
   max-width: 350px;
@@ -929,6 +941,9 @@ textarea:focus {
   font-size: 1em; 
   border: none; 
   cursor: pointer;
+}
+.slide-content button .icon {
+  margin-left: 10px;
 }
 
 .slide-content button:hover {

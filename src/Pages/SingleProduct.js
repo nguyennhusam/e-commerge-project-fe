@@ -279,11 +279,11 @@ const SingleProduct = () => {
                             e.preventDefault();
                             postReview();
                           }}
-                          disabled={reviews.some(
+                          disabled={reviews?.some(
                             (review) => review.owner.id === userInfo.id
                           )}
                         >
-                          {reviews.some(
+                          {reviews?.some(
                             (review) => review.owner.id === userInfo.id
                           )
                             ? "Bạn đã đánh giá sản phẩm này!"

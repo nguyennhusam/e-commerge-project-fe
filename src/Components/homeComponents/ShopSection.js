@@ -60,10 +60,12 @@ const ShopSection = () => {
                 style={{
                   display: "flex",
                   width: "100%",
-                  justifyContent: "flex-end",
-                  marginBottom: "0",
+                  justifyContent: "space-between",
+                  marginBottom: "20px",
+                  marginLeft: "24px",
                 }}
               >
+                <h2>Danh mục sản phẩm</h2>
                 <form
                   className="input-group"
                   onChange={(e) => setSearch(e.target.value)}
